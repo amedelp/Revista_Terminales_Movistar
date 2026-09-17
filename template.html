@@ -1,0 +1,720 @@
+<title>Revista de Equipos</title>
+<meta name="description" content="Comparador de precios y fichas técnicas de celulares Movistar vs. la competencia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EEF1F6;
+    --border:#DBE1E9;
+    --text:#10151C;
+    --text-muted:#5B6572;
+    --accent:#0B3EE0;
+    --accent-ink:#0A2FB0;
+    --accent-soft:#E7ECFF;
+    --good:#0B8A5E;
+    --good-soft:#E3F5EC;
+    --warn:#9A6B10;
+    --warn-soft:#FBF0DA;
+    --chip-bg:#EEF1F6;
+    --shadow: 0 1px 2px rgba(16,21,28,0.06), 0 8px 24px -12px rgba(16,21,28,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0A0E15;
+      --surface:#121826;
+      --surface-2:#1A2233;
+      --border:#2A3446;
+      --text:#E8ECF3;
+      --text-muted:#98A3B5;
+      --accent:#6D8CFF;
+      --accent-ink:#AEC0FF;
+      --accent-soft:#1C2745;
+      --good:#33C98D;
+      --good-soft:#0F2A20;
+      --warn:#E4B24C;
+      --warn-soft:#2E2510;
+      --chip-bg:#1A2233;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A0E15;
+    --surface:#121826;
+    --surface-2:#1A2233;
+    --border:#2A3446;
+    --text:#E8ECF3;
+    --text-muted:#98A3B5;
+    --accent:#6D8CFF;
+    --accent-ink:#AEC0FF;
+    --accent-soft:#1C2745;
+    --good:#33C98D;
+    --good-soft:#0F2A20;
+    --warn:#E4B24C;
+    --warn-soft:#2E2510;
+    --chip-bg:#1A2233;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', ui-sans-serif, system-ui, sans-serif;
+    padding:0 16px;
+    padding-block: 20px 48px;
+    font-variant-numeric: tabular-nums;
+  }
+  h1,h2,h3{ font-family:'Sora', ui-sans-serif, system-ui, sans-serif; text-wrap:balance; margin:0; }
+  a { color: var(--accent-ink); }
+  .wrap{ max-width: 1040px; margin: 0 auto; }
+
+  /* ---------- header ---------- */
+  .masthead{
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: var(--bg);
+    padding-top: 4px;
+    margin: 0 -16px 20px;
+    padding-left:16px; padding-right:16px;
+  }
+  .masthead-inner{ max-width:1040px; margin:0 auto; padding-bottom: 14px; border-bottom:1px solid var(--border);}
+  .eyebrow{
+    font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent-ink); margin-bottom:4px; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow .dot{ width:6px;height:6px;border-radius:50%; background:var(--good); }
+  h1{ font-size: clamp(22px,4vw,30px); font-weight:800; letter-spacing:-0.01em; }
+  .subtitle{ color:var(--text-muted); font-size:13.5px; margin-top:4px; }
+
+  /* ---------- tabs ---------- */
+  .tabbar{ display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
+  .tab-btn{
+    font:inherit; font-weight:700; font-size:13.5px; padding:9px 16px; border-radius:999px;
+    border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer;
+  }
+  .tab-btn.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .tab-btn:hover:not(.active){ border-color:var(--accent-ink); color:var(--text); }
+
+  /* ---------- selector bar ---------- */
+  .selector-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+    margin-top:16px;
+    box-shadow: var(--shadow);
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap:12px;
+  }
+  .field label{
+    display:block; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--text-muted); margin-bottom:6px;
+  }
+  select{
+    width:100%; appearance:none; -webkit-appearance:none;
+    background:var(--surface-2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="%235B6572" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat right 10px center / 16px;
+    border:1px solid var(--border);
+    color:var(--text);
+    font:inherit; font-weight:600; font-size:14px;
+    padding:9px 32px 9px 12px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  select:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+  select:disabled{ opacity:.5; cursor:not-allowed; }
+
+  /* ---------- section headings ---------- */
+  .section{ margin-top:32px; }
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .section-head h2{ font-size:19px; font-weight:700; }
+  .section-note{ font-size:12.5px; color:var(--text-muted); }
+
+  /* ---------- movistar hero ---------- */
+  .movistar-hero{
+    background: linear-gradient(155deg, var(--accent) 0%, var(--accent-ink) 100%);
+    color:#fff;
+    border-radius:18px;
+    padding:20px 22px;
+    box-shadow: var(--shadow);
+    display:flex; flex-wrap:wrap; align-items:center; gap:20px;
+  }
+  .hero-left{ flex:1 1 280px; min-width:0; display:flex; flex-direction:column; gap:14px; }
+  .movistar-hero .brand{ font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; opacity:.85; }
+  .movistar-hero .modelname{ font-size:19px; font-weight:700; margin-top:2px; }
+  .hero-img-wrap{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:center;
+    margin-left:auto;
+  }
+  .hero-img{
+    width:210px; height:210px; object-fit:contain;
+    background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.28);
+    border-radius:20px; padding:16px;
+  }
+  @media (max-width:640px){
+    .movistar-hero{ flex-direction:column; align-items:stretch; }
+    .hero-img-wrap{ margin-left:0; order:-1; align-self:center; }
+    .hero-img{ width:170px; height:170px; }
+  }
+
+  .mv-rows{ display:flex; flex-wrap:wrap; gap:10px; }
+  .mv-row{
+    background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.28);
+    border-radius:14px; padding:10px 14px; min-width:170px; flex:1 1 170px;
+  }
+  .mv-row-label{ font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; opacity:.85; }
+  .mv-row-price{ font-size:19px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .mv-row-sub{ font-size:11.5px; opacity:.85; margin-top:3px; }
+  .mv-row-tag{
+    font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:999px; margin-top:6px;
+    background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); display:inline-block;
+  }
+  .mv-row-movone{ background:rgba(255,255,255,0.06); }
+  .mv-row-note{ font-size:11px; font-weight:600; opacity:.8; }
+
+  /* ---------- extremos (más barato / más caro) ---------- */
+  .extreme-badge{
+    font-size:10px; font-weight:800; letter-spacing:.02em; text-transform:uppercase;
+    padding:2px 7px; border-radius:999px; white-space:nowrap;
+  }
+  .extreme-badge.best{ background:#0B8A5E; color:#fff; }
+  .extreme-badge.worst{ background:#B3401E; color:#fff; }
+
+  /* ---------- baratos (Movistar más barato) ---------- */
+  .baratos-filter{ max-width:220px; margin-top:14px; }
+  .baratos-summary{ font-size:13px; color:var(--text-muted); margin:14px 0 18px; }
+  .baratos-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap:14px; }
+  .barato-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px;
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .barato-img{
+    width:56px; height:56px; flex-shrink:0; object-fit:contain;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:6px;
+  }
+  .barato-img-placeholder{ width:56px; height:56px; flex-shrink:0; border-radius:12px; background:var(--surface-2); }
+  .barato-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
+  .barato-brand{ font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted); }
+  .barato-name{ font-size:14px; font-weight:700; line-height:1.25; }
+  .barato-prices{ display:flex; gap:16px; margin-top:2px; }
+  .barato-prices .lbl{ display:block; font-size:10.5px; font-weight:700; text-transform:uppercase; color:var(--text-muted); }
+  .barato-prices .val{ display:block; font-size:15px; font-weight:800; margin-top:1px; }
+  .barato-mv .val{ color:var(--good); }
+  .barato-delta{
+    font-size:11.5px; font-weight:700; color:var(--good); background:var(--good-soft);
+    display:inline-block; padding:3px 9px; border-radius:999px; align-self:flex-start;
+  }
+  .barato-link{
+    margin-top:2px; align-self:flex-start; font:inherit; font-size:12.5px; font-weight:700; color:var(--accent-ink);
+    background:none; border:none; cursor:pointer; padding:0;
+  }
+  .barato-link:hover{ text-decoration:underline; }
+
+  /* ---------- competitor grid ---------- */
+  .comp-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap:10px; margin-top:12px;
+    align-items:start;
+  }
+  .comp-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .comp-card .retailer{ font-size:12.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+  .comp-card.empty{ justify-content:flex-start; }
+  .comp-card.empty .price{ font-size:13px; font-weight:600; color:var(--text-muted); }
+  .comp-card .condicion{ font-size:12px; color:var(--text-muted); line-height:1.4; }
+  .comp-card .pay-row{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .comp-card .delta{
+    align-self:flex-start; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:999px;
+  }
+  .delta.good{ background:var(--good-soft); color:var(--good); }
+  .delta.warn{ background:var(--warn-soft); color:var(--warn); }
+  .comp-card .paytag{
+    font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:999px;
+    background:var(--chip-bg); color:var(--text-muted); border:1px solid var(--border);
+  }
+  .comp-card .src-link{ font-size:11.5px; margin-top:2px; }
+  .comp-card .storage-note{ font-size:11px; color:var(--warn); }
+
+  .offer-row{ padding:10px 0; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:4px; }
+  .offer-row:first-of-type{ padding-top:0; border-top:none; }
+  .offer-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .offer-label{ font-size:12px; font-weight:700; color:var(--text); }
+  .offer-price{ font-size:18px; font-weight:800; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+  /* ---------- specs ---------- */
+  .spec-tiles{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap:10px;
+  }
+  .spec-tile{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px;
+  }
+  .spec-tile .label{ font-size:11.5px; color:var(--text-muted); font-weight:600; }
+  .spec-tile .value{ font-size:14.5px; font-weight:700; margin-top:4px; line-height:1.3; }
+
+  .spec-table{
+    margin-top:14px; background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden;
+  }
+  .spec-row{ display:flex; gap:16px; padding:12px 16px; border-bottom:1px solid var(--border); }
+  .spec-row:last-child{ border-bottom:none; }
+  .spec-row .k{ width:150px; flex:none; font-size:13px; font-weight:600; color:var(--text-muted); }
+  .spec-row .v{ font-size:13.5px; line-height:1.45; }
+  .spec-source{ font-size:11.5px; color:var(--text-muted); margin-top:10px; }
+  .badge-movistar{ background:var(--good-soft); color:var(--good); font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; margin-left:8px; }
+  .badge-other{ background:var(--warn-soft); color:var(--warn); font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; margin-left:8px; }
+
+  .empty-state{ text-align:center; padding:40px 16px; color:var(--text-muted); font-size:14px; }
+
+  footer{ margin-top:40px; padding-top:16px; border-top:1px solid var(--border); font-size:12px; color:var(--text-muted); }
+
+  @media (max-width:520px){
+    .spec-row{ flex-direction:column; gap:2px; }
+    .spec-row .k{ width:auto; }
+  }
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div class="eyebrow"><span class="dot"></span> Catálogo completo · 8 marcas</div>
+      <h1>Revista de Equipos</h1>
+      <div class="subtitle" id="version-label"></div>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <button type="button" class="tab-btn active" id="tab-btn-comparador" data-tab="comparador">Comparador</button>
+    <button type="button" class="tab-btn" id="tab-btn-baratos" data-tab="baratos">Movistar más barato</button>
+  </div>
+
+  <div id="view-comparador">
+    <div class="selector-card">
+      <div class="field">
+        <label for="sel-marca">Marca</label>
+        <select id="sel-marca"></select>
+      </div>
+      <div class="field">
+        <label for="sel-modelo">Modelo</label>
+        <select id="sel-modelo"></select>
+      </div>
+      <div class="field">
+        <label for="sel-storage">Almacenamiento</label>
+        <select id="sel-storage"></select>
+      </div>
+    </div>
+
+    <div id="app"></div>
+  </div>
+
+  <div id="view-baratos" hidden>
+    <div class="section">
+      <div class="section-head">
+        <h2>Equipos donde Movistar es más barato</h2>
+      </div>
+      <div class="baratos-filter">
+        <div class="field">
+          <label for="sel-baratos-marca">Marca</label>
+          <select id="sel-baratos-marca"><option value="">Todas las marcas</option></select>
+        </div>
+      </div>
+      <div id="baratos-app"></div>
+    </div>
+  </div>
+
+  <footer>
+    Precios Movistar según lista vigente (<span id="version-label-2"></span>). Se muestran todas las modalidades disponibles de Movistar y de cada competidor a la vez (sin filtro), para que el ejecutivo elija la que corresponda al cliente. El precio de competencia siempre se compara contra el precio Movistar más bajo disponible para ese modelo (normalmente Contado), indicado en "Comparativo de precios". Cada fila muestra su estructura de pago: "Financiado en boleta" (pie + 18 cuotas cobradas por el operador, igual que Movistar Renovación/Alta-Portabilidad — hoy solo Claro tiene esta estructura) o "Pago único" (se paga de una vez; en WOM las "cuotas sin interés" son con tu propia tarjeta de crédito, no financiamiento del operador). Las etiquetas "Más barato" y "Más caro" destacan, entre todas las modalidades de Movistar y de la competencia mostradas para este modelo, el precio más bajo y más alto del panorama completo. Precios de la competencia obtenidos de sus sitios públicos en la fecha indicada en cada tarjeta y pueden cambiar sin aviso — antes de ofrecer una comparación a un cliente, verifica el precio vigente en el sitio del operador. La pestaña "Movistar más barato" usa, para cada modelo, el almacenamiento de menor capacidad disponible y compara contra la oferta más barata registrada entre los 7 sitios de competencia — solo incluye equipos con al menos un precio de competencia registrado. Herramienta interna de apoyo comercial, no vinculante.
+  </footer>
+</div>
+
+<script>
+const DATA = __CATALOG_JSON__;
+
+const SOURCE_LABELS = {
+  entel: "Entel", wom: "WOM", claro: "Claro", falabella: "Falabella",
+  paris: "Paris", ripley: "Ripley", abc: "ABC"
+};
+const SOURCE_ORDER = ["entel","wom","claro","falabella","paris","ripley","abc"];
+const BASE_LABEL = { wom: "Prepago" };
+const TIPO_PAGO_LABEL = {
+  pago_unico: "Pago único",
+  financiado_boleta: "Financiado en boleta"
+};
+
+function money(n){
+  if(n===null || n===undefined || isNaN(n)) return "—";
+  return "$" + Math.round(n).toLocaleString('es-CL');
+}
+
+function storageSort(a,b){
+  const num = s => parseFloat(s) * (s.toUpperCase().includes('TB') ? 1024 : 1);
+  return num(a) - num(b);
+}
+
+function pickVariant(modelo, storage){
+  const cands = modelo.variantes.filter(v => v.storage === storage);
+  const nonBundle = cands.find(v => !v.bundle);
+  return nonBundle || cands[0] || modelo.variantes[0];
+}
+
+const $marca = document.getElementById('sel-marca');
+const $modelo = document.getElementById('sel-modelo');
+const $storage = document.getElementById('sel-storage');
+const $app = document.getElementById('app');
+const $baratosApp = document.getElementById('baratos-app');
+const $baratosMarca = document.getElementById('sel-baratos-marca');
+const $viewComparador = document.getElementById('view-comparador');
+const $viewBaratos = document.getElementById('view-baratos');
+const $tabBtns = [document.getElementById('tab-btn-comparador'), document.getElementById('tab-btn-baratos')];
+
+function uniq(arr){ return [...new Set(arr)]; }
+
+function setTab(tab){
+  $tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  $viewComparador.hidden = tab !== 'comparador';
+  $viewBaratos.hidden = tab !== 'baratos';
+  if(tab === 'baratos') renderBaratos();
+}
+
+function init(){
+  document.getElementById('version-label').textContent = "Lista de precios Movistar: " + DATA.version_label;
+  document.getElementById('version-label-2').textContent = DATA.version_label;
+
+  const marcas = uniq(DATA.modelos.map(m => m.marca)).sort();
+  $marca.innerHTML = marcas.map(m => `<option value="${m}">${m.charAt(0)+m.slice(1).toLowerCase()}</option>`).join('');
+  $baratosMarca.innerHTML = `<option value="">Todas las marcas</option>` +
+    marcas.map(m => `<option value="${m}">${m.charAt(0)+m.slice(1).toLowerCase()}</option>`).join('');
+
+  $marca.addEventListener('change', populateModelos);
+  $modelo.addEventListener('change', populateStorages);
+  $storage.addEventListener('change', render);
+  $baratosMarca.addEventListener('change', renderBaratos);
+  $tabBtns.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+  populateModelos();
+}
+
+function populateModelos(){
+  const marca = $marca.value;
+  const modelos = DATA.modelos.filter(m => m.marca === marca).sort((a,b)=>a.modelo_display.localeCompare(b.modelo_display,'es'));
+  $modelo.innerHTML = modelos.map(m => `<option value="${m.modelo_base}">${m.modelo_display}</option>`).join('');
+  populateStorages();
+}
+
+function currentModelo(){
+  return DATA.modelos.find(m => m.marca === $marca.value && m.modelo_base === $modelo.value);
+}
+
+function populateStorages(){
+  const modelo = currentModelo();
+  const storages = uniq(modelo.variantes.map(v=>v.storage).filter(Boolean)).sort(storageSort);
+  $storage.innerHTML = storages.length
+    ? storages.map(s => `<option value="${s}">${s}</option>`).join('')
+    : `<option value="">—</option>`;
+  render();
+}
+
+// ---- Movistar: todas las modalidades con precio total comparable (Contado /
+// Renovación / Alta-Portabilidad). Movistar One queda aparte: es una cuota
+// mensual + plan, no un precio total, así que no entra en el mínimo ni en el
+// destacado de más barato/más caro.
+function movistarModalidades(variant){
+  const rows = [];
+  if(variant.contado !== null && variant.contado !== undefined){
+    rows.push({ label:'Contado', total: variant.contado, sub: null, tipo_pago:'pago_unico' });
+  }
+  if(variant.recambio && variant.recambio.total !== null && variant.recambio.total !== undefined){
+    rows.push({
+      label:'Renovación en Boleta', total: variant.recambio.total,
+      sub: `Pie ${money(variant.recambio.pie)} + 18 cuotas de ${money(variant.recambio.cuota)}`,
+      tipo_pago:'financiado_boleta'
+    });
+  }
+  if(variant.alta && variant.alta.total !== null && variant.alta.total !== undefined){
+    rows.push({
+      label:'Alta / Portabilidad', total: variant.alta.total,
+      sub: `Pie ${money(variant.alta.pie)} + 18 cuotas de ${money(variant.alta.cuota)}`,
+      tipo_pago:'financiado_boleta'
+    });
+  }
+  return rows;
+}
+
+// ---- Competencia: junta precio base (Liberado/Prepago) + Renovación + Alta-
+// Portabilidad de un mismo sitio, y fusiona en una sola fila las que resulten
+// con el mismo precio (ej. Entel: Liberado = Renovación = Alta-Portabilidad
+// desde el ajuste de calidad de datos, son el mismo "Precio oferta").
+function rawOffers(src, raw){
+  if(!raw) return [];
+  const list = [];
+  if(raw.precio !== null && raw.precio !== undefined){
+    list.push({ label: BASE_LABEL[src] || 'Liberado', precio: raw.precio, condicion: raw.condicion, url: raw.url, storage: raw.storage, tipo_pago:'pago_unico' });
+  }
+  if(raw.recambio && raw.recambio.precio !== null && raw.recambio.precio !== undefined){
+    list.push({ label:'Renovación en Boleta', precio: raw.recambio.precio, condicion: raw.recambio.condicion, url: raw.recambio.url, storage: raw.storage, tipo_pago: raw.recambio.tipo_pago || 'pago_unico' });
+  }
+  if(raw.alta && raw.alta.precio !== null && raw.alta.precio !== undefined){
+    list.push({ label:'Alta / Portabilidad', precio: raw.alta.precio, condicion: raw.alta.condicion, url: raw.alta.url, storage: raw.storage, tipo_pago: raw.alta.tipo_pago || 'pago_unico' });
+  }
+  const groups = [];
+  list.forEach(o => {
+    const g = groups.find(g => g.precio === o.precio);
+    if(g){ g.labels.push(o.label); g.condiciones.push(o.condicion); if(!g.url) g.url = o.url; }
+    else groups.push({ precio:o.precio, labels:[o.label], condiciones:[o.condicion], url:o.url, storage:o.storage, tipo_pago:o.tipo_pago });
+  });
+  return groups.map(g => ({
+    label: g.labels.join(' · '),
+    precio: g.precio,
+    condicion: g.condiciones.filter(Boolean)[0] || '',
+    url: g.url, storage: g.storage, tipo_pago: g.tipo_pago
+  }));
+}
+
+function render(){
+  const modelo = currentModelo();
+  const storage = $storage.value;
+  if(!modelo || !storage){ $app.innerHTML = '<div class="empty-state">Selecciona marca y modelo.</div>'; return; }
+  const variant = pickVariant(modelo, storage);
+
+  const mvRows = movistarModalidades(variant);
+  const movistarMin = mvRows.length ? Math.min(...mvRows.map(r=>r.total)) : null;
+  const movistarMinRow = mvRows.find(r => r.total === movistarMin);
+  const mo = variant.movone || null;
+
+  const compData = SOURCE_ORDER.map(src => ({ src, raw: modelo.competencia[src], offers: rawOffers(src, modelo.competencia[src]) }));
+
+  // Panorama completo (Movistar + todas las ofertas de competencia) para
+  // destacar el precio más barato y el más caro del conjunto.
+  const allPoints = [...mvRows.map(r=>r.total)];
+  compData.forEach(({offers}) => offers.forEach(o => allPoints.push(o.precio)));
+  let globalMin = null, globalMax = null;
+  if(allPoints.length){
+    globalMin = Math.min(...allPoints);
+    globalMax = Math.max(...allPoints);
+    if(globalMin === globalMax){ globalMin = null; globalMax = null; }
+  }
+  function extremeBadge(total){
+    if(globalMin !== null && total === globalMin) return `<span class="extreme-badge best">Más barato</span>`;
+    if(globalMax !== null && total === globalMax) return `<span class="extreme-badge worst">Más caro</span>`;
+    return '';
+  }
+
+  // ---- Movistar hero: todas las modalidades, sin filtro ----
+  const mvRowsHtml = mvRows.length ? mvRows.map(r => `
+    <div class="mv-row">
+      <div class="mv-row-label">${r.label}</div>
+      <div class="mv-row-price">${money(r.total)}${extremeBadge(r.total)}</div>
+      ${r.sub ? `<div class="mv-row-sub">${r.sub}</div>` : ''}
+      <span class="mv-row-tag">${TIPO_PAGO_LABEL[r.tipo_pago]}</span>
+    </div>
+  `).join('') : '';
+  // Movistar One se muestra con el valor de "Pago Financiamiento Mixto
+  // (Pie + 12 cuotas)" del Plan Libre 450 (Plan 5G Libre Full) — la modalidad
+  // de referencia según reglas del negocio. Es un total parcial (12 de las
+  // 24 cuotas del equipo), no el costo total del equipo, así que no entra en
+  // el mínimo/máximo destacado ni en el comparativo de precio total.
+  const movonePlan450 = mo && mo.planes ? mo.planes['Plan Libre 450 (Plan 5G Libre Full)'] : null;
+  const movoneHtml = (movonePlan450 && movonePlan450.mixto !== null && movonePlan450.mixto !== undefined) ? `
+    <div class="mv-row mv-row-movone">
+      <div class="mv-row-label">Movistar One</div>
+      <div class="mv-row-price">${money(movonePlan450.mixto)}</div>
+      <div class="mv-row-sub">Pago Financiamiento Mixto: Pie ${money(movonePlan450.pie)} + 12 cuotas de ${money(mo.cuota)} · Plan Libre 450 (Plan 5G Libre Full) · no incluido en el comparativo de precio total</div>
+    </div>
+  ` : '';
+
+  // ---- Competencia: una tarjeta por sitio, una fila por cada oferta ----
+  const compCardsHtml = compData.map(({src, raw, offers}) => {
+    const label = SOURCE_LABELS[src];
+    if(!raw){
+      return `<div class="comp-card empty"><div class="retailer">${label}</div><div class="price">Sin datos aún</div></div>`;
+    }
+    if(!offers.length){
+      return `<div class="comp-card empty">
+        <div class="retailer">${label}</div>
+        <div class="price">Sin precio disponible</div>
+        <div class="condicion">${raw.condicion || 'No se pudo obtener el precio en este sitio.'}</div>
+        ${raw.url ? `<a class="src-link" href="${raw.url}" target="_blank" rel="noopener">Revisar en el sitio ↗</a>` : ''}
+      </div>`;
+    }
+    const offersHtml = offers.map(o => {
+      const diff = (movistarMin !== null) ? (o.precio - movistarMin) : null;
+      const deltaHtml = diff !== null
+        ? `<span class="delta ${diff < 0 ? 'good' : 'warn'}">${diff < 0 ? '−' : '+'}${money(Math.abs(diff))} vs. Movistar</span>`
+        : '';
+      const storageNote = (o.storage && o.storage !== storage) ? `<div class="storage-note">Precio corresponde a ${o.storage}, no ${storage}</div>` : '';
+      return `<div class="offer-row">
+        <div class="offer-head">
+          <span class="offer-label">${o.label}</span>
+          <span class="paytag">${TIPO_PAGO_LABEL[o.tipo_pago]}</span>
+        </div>
+        <div class="offer-price">${money(o.precio)}${extremeBadge(o.precio)}</div>
+        <div class="pay-row">${deltaHtml}</div>
+        ${storageNote}
+        <div class="condicion">${o.condicion || ''}</div>
+        ${o.url ? `<a class="src-link" href="${o.url}" target="_blank" rel="noopener">Ver fuente ↗</a>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="comp-card">
+      <div class="retailer">${label}</div>
+      ${offersHtml}
+    </div>`;
+  }).join('');
+
+  // ---- specs ----
+  const s = modelo.specs;
+  const hasSpecs = s.pantalla || s.procesador || s.ram || s.camara_trasera || s.bateria;
+  const specBadge = hasSpecs
+    ? (s.es_movistar ? '<span class="badge-movistar">movistar.cl</span>' : `<span class="badge-other">fuente alternativa</span>`)
+    : '';
+
+  const specsHtml = hasSpecs ? `
+    <div class="spec-tiles">
+      <div class="spec-tile"><div class="label">Pantalla</div><div class="value">${s.pantalla || '—'}</div></div>
+      <div class="spec-tile"><div class="label">Cámara</div><div class="value">${s.camara_trasera || '—'}</div></div>
+      <div class="spec-tile"><div class="label">Almacenamiento</div><div class="value">${storage}</div></div>
+      <div class="spec-tile"><div class="label">Memoria RAM</div><div class="value">${s.ram || '—'}</div></div>
+    </div>
+    <div class="spec-table">
+      <div class="spec-row"><div class="k">Procesador</div><div class="v">${s.procesador || 'No disponible'}</div></div>
+      <div class="spec-row"><div class="k">Sistema operativo</div><div class="v">${s.sistema_operativo || 'No disponible'}</div></div>
+      <div class="spec-row"><div class="k">Cámara trasera</div><div class="v">${s.camara_trasera || 'No disponible'}</div></div>
+      <div class="spec-row"><div class="k">Cámara frontal</div><div class="v">${s.camara_frontal || 'No disponible'}</div></div>
+      <div class="spec-row"><div class="k">Batería</div><div class="v">${s.bateria || 'No disponible'}</div></div>
+    </div>
+    <div class="spec-source">Ficha ${s.es_movistar ? 'obtenida de movistar.cl' : (s.fuente_specs_nombre ? 'obtenida de ' + s.fuente_specs_nombre + ' — pendiente de confirmar en movistar.cl' : '')}${s.fuente_specs_url ? ` · <a href="${s.fuente_specs_url}" target="_blank" rel="noopener">ver ficha ↗</a>` : ''}</div>
+  ` : `<div class="empty-state">Todavía no tenemos ficha técnica confiable para este equipo. Se está completando desde movistar.cl.</div>`;
+
+  const anchorNote = movistarMin !== null
+    ? `Comparado siempre contra el precio Movistar más bajo disponible: ${movistarMinRow ? movistarMinRow.label + ' ' : ''}${money(movistarMin)}`
+    : 'Sin precio Movistar disponible para este almacenamiento';
+
+  $app.innerHTML = `
+    <div class="section">
+      <div class="section-head">
+        <h2>Comparativo de precios</h2>
+        <div class="section-note">${anchorNote}</div>
+      </div>
+      <div class="movistar-hero">
+        <div class="hero-left">
+          <div>
+            <div class="brand">Movistar</div>
+            <div class="modelname">${modelo.modelo_display} · ${storage}</div>
+          </div>
+          <div class="mv-rows">${mvRowsHtml}${movoneHtml}</div>
+        </div>
+        ${s.imagen ? `<div class="hero-img-wrap"><img class="hero-img" src="${s.imagen}" alt="${modelo.modelo_display}" onerror="this.closest('.hero-img-wrap').remove()"></div>` : ''}
+      </div>
+      <div class="comp-grid">${compCardsHtml}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2>Ficha técnica</h2>
+        ${specBadge}
+      </div>
+      ${specsHtml}
+    </div>
+  `;
+}
+
+// ---- Pestaña "Movistar más barato": para cada modelo, usa el almacenamiento
+// de menor capacidad disponible, calcula el precio Movistar más bajo (mismo
+// criterio que movistarMin en el comparativo) y lo compara contra la oferta
+// más barata encontrada entre todos los sitios de competencia. Solo cuentan
+// los modelos donde Movistar queda estrictamente más barato que esa oferta.
+function evaluarModeloBarato(modelo){
+  const storages = uniq(modelo.variantes.map(v=>v.storage).filter(Boolean)).sort(storageSort);
+  const storage = storages[0];
+  if(!storage) return null;
+  const variant = pickVariant(modelo, storage);
+
+  const mvRows = movistarModalidades(variant);
+  if(!mvRows.length) return null;
+  const movistarMin = Math.min(...mvRows.map(r=>r.total));
+  const movistarMinRow = mvRows.find(r=>r.total===movistarMin);
+
+  let best = null;
+  SOURCE_ORDER.forEach(src => {
+    rawOffers(src, modelo.competencia[src]).forEach(o => {
+      if(best === null || o.precio < best.precio) best = { src, ...o };
+    });
+  });
+  if(!best) return null;
+
+  const delta = best.precio - movistarMin;
+  if(delta <= 0) return null;
+
+  return { modelo, storage, movistarMin, movistarMinRow, best, delta };
+}
+
+function renderBaratos(){
+  const marcaFiltro = $baratosMarca.value;
+  const universo = marcaFiltro ? DATA.modelos.filter(m => m.marca === marcaFiltro) : DATA.modelos;
+
+  const rows = universo.map(evaluarModeloBarato).filter(Boolean)
+    .sort((a,b) => b.delta - a.delta);
+
+  const total = universo.length;
+  const conCompetencia = universo.filter(m => SOURCE_ORDER.some(src => rawOffers(src, m.competencia[src]).length)).length;
+  const marcaLabel = marcaFiltro ? (marcaFiltro.charAt(0) + marcaFiltro.slice(1).toLowerCase()) : null;
+
+  if(!rows.length){
+    $baratosApp.innerHTML = `<div class="empty-state">${marcaFiltro ? `No se encontraron equipos ${marcaLabel} donde Movistar quede más barato que toda la competencia registrada.` : 'No se encontraron equipos donde Movistar quede más barato que toda la competencia registrada.'}</div>`;
+    return;
+  }
+
+  const cardsHtml = rows.map(r => {
+    const s = r.modelo.specs || {};
+    const imgHtml = s.imagen
+      ? `<img class="barato-img" src="${s.imagen}" alt="${r.modelo.modelo_display}" onerror="this.remove()">`
+      : `<div class="barato-img-placeholder"></div>`;
+    const pct = r.movistarMin > 0 ? Math.round((r.delta / r.best.precio) * 100) : null;
+    return `<div class="barato-card">
+      ${imgHtml}
+      <div class="barato-body">
+        <div class="barato-brand">${r.modelo.marca}</div>
+        <div class="barato-name">${r.modelo.modelo_display} · ${r.storage}</div>
+        <div class="barato-prices">
+          <div class="barato-mv">
+            <span class="lbl">Movistar</span>
+            <span class="val">${money(r.movistarMin)}</span>
+          </div>
+          <div class="barato-comp">
+            <span class="lbl">${SOURCE_LABELS[r.best.src]}</span>
+            <span class="val">${money(r.best.precio)}</span>
+          </div>
+        </div>
+        <div class="barato-delta">Ahorras ${money(r.delta)}${pct !== null ? ` (${pct}%)` : ''} vs. ${SOURCE_LABELS[r.best.src]}</div>
+        <button type="button" class="barato-link" data-marca="${r.modelo.marca}" data-modelo="${r.modelo.modelo_base}" data-storage="${r.storage}">Ver comparativo completo →</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  $baratosApp.innerHTML = `
+    <div class="baratos-summary">${rows.length} de ${conCompetencia} equipos con precio de competencia registrado tienen el precio Movistar más bajo (${rows.length} de ${total} equipos en total${marcaLabel ? ` · marca ${marcaLabel}` : ''}). Ordenados de mayor a menor ahorro.</div>
+    <div class="baratos-grid">${cardsHtml}</div>
+  `;
+
+  $baratosApp.querySelectorAll('.barato-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      irAComparador(btn.dataset.marca, btn.dataset.modelo, btn.dataset.storage);
+    });
+  });
+}
+
+function irAComparador(marca, modeloBase, storage){
+  $marca.value = marca;
+  populateModelos();
+  $modelo.value = modeloBase;
+  populateStorages();
+  if(storage) $storage.value = storage;
+  render();
+  setTab('comparador');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+init();
+</script>
