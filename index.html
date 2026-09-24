@@ -208,6 +208,7 @@
     font-size:11.5px; font-weight:700; color:var(--good); background:var(--good-soft);
     display:inline-block; padding:3px 9px; border-radius:999px; align-self:flex-start;
   }
+  .barato-delta.cercano{ color:var(--warn); background:var(--warn-soft); }
   .barato-link{
     margin-top:2px; align-self:flex-start; font:inherit; font-size:12.5px; font-weight:700; color:var(--accent-ink);
     background:none; border:none; cursor:pointer; padding:0;
@@ -289,6 +290,7 @@
   <div class="tabbar">
     <button type="button" class="tab-btn active" id="tab-btn-comparador" data-tab="comparador">Comparador</button>
     <button type="button" class="tab-btn" id="tab-btn-baratos" data-tab="baratos">Movistar más barato</button>
+    <button type="button" class="tab-btn" id="tab-btn-cercanos" data-tab="cercanos">Diferencia ≤ $10.000</button>
   </div>
 
   <div id="view-comparador">
@@ -325,8 +327,23 @@
     </div>
   </div>
 
+  <div id="view-cercanos" hidden>
+    <div class="section">
+      <div class="section-head">
+        <h2>Equipos donde Movistar queda a lo más $10.000 por sobre la competencia</h2>
+      </div>
+      <div class="baratos-filter">
+        <div class="field">
+          <label for="sel-cercanos-marca">Marca</label>
+          <select id="sel-cercanos-marca"><option value="">Todas las marcas</option></select>
+        </div>
+      </div>
+      <div id="cercanos-app"></div>
+    </div>
+  </div>
+
   <footer>
-    Precios Movistar según lista vigente (<span id="version-label-2"></span>). Se muestran todas las modalidades disponibles de Movistar y de cada competidor a la vez (sin filtro), para que el ejecutivo elija la que corresponda al cliente. El precio de competencia siempre se compara contra el precio Movistar más bajo disponible para ese modelo (normalmente Contado), indicado en "Comparativo de precios". Cada fila muestra su estructura de pago: "Financiado en boleta" (pie + 18 cuotas cobradas por el operador, igual que Movistar Renovación/Alta-Portabilidad — hoy solo Claro tiene esta estructura) o "Pago único" (se paga de una vez; en WOM las "cuotas sin interés" son con tu propia tarjeta de crédito, no financiamiento del operador). Las etiquetas "Más barato" y "Más caro" destacan, entre todas las modalidades de Movistar y de la competencia mostradas para este modelo, el precio más bajo y más alto del panorama completo. Precios de la competencia obtenidos de sus sitios públicos en la fecha indicada en cada tarjeta y pueden cambiar sin aviso — antes de ofrecer una comparación a un cliente, verifica el precio vigente en el sitio del operador. La pestaña "Movistar más barato" usa, para cada modelo, el almacenamiento de menor capacidad disponible y compara contra la oferta más barata registrada entre los 7 sitios de competencia — solo incluye equipos con al menos un precio de competencia registrado. Herramienta interna de apoyo comercial, no vinculante.
+    Precios Movistar según lista vigente (<span id="version-label-2"></span>). Se muestran todas las modalidades disponibles de Movistar y de cada competidor a la vez (sin filtro), para que el ejecutivo elija la que corresponda al cliente. El precio de competencia siempre se compara contra el precio Movistar más bajo disponible para ese modelo (normalmente Contado), indicado en "Comparativo de precios". Cada fila muestra su estructura de pago: "Financiado en boleta" (pie + 18 cuotas cobradas por el operador, igual que Movistar Renovación/Alta-Portabilidad — hoy solo Claro tiene esta estructura) o "Pago único" (se paga de una vez; en WOM las "cuotas sin interés" son con tu propia tarjeta de crédito, no financiamiento del operador). Las etiquetas "Más barato" y "Más caro" destacan, entre todas las modalidades de Movistar y de la competencia mostradas para este modelo, el precio más bajo y más alto del panorama completo. Precios de la competencia obtenidos de sus sitios públicos en la fecha indicada en cada tarjeta y pueden cambiar sin aviso — antes de ofrecer una comparación a un cliente, verifica el precio vigente en el sitio del operador. La pestaña "Movistar más barato" usa, para cada modelo, el almacenamiento de menor capacidad disponible y compara contra la oferta más barata registrada entre los 7 sitios de competencia — solo incluye equipos con al menos un precio de competencia registrado. La pestaña "Diferencia ≤ $10.000" usa el mismo criterio pero al revés: equipos donde Movistar queda más caro que la oferta más barata de la competencia, pero por $10.000 o menos — para detectar casos donde una pequeña rebaja alcanzaría para empatar o ganar. Herramienta interna de apoyo comercial, no vinculante.
   </footer>
 </div>
 
@@ -368,7 +385,10 @@ const $baratosApp = document.getElementById('baratos-app');
 const $baratosMarca = document.getElementById('sel-baratos-marca');
 const $viewComparador = document.getElementById('view-comparador');
 const $viewBaratos = document.getElementById('view-baratos');
-const $tabBtns = [document.getElementById('tab-btn-comparador'), document.getElementById('tab-btn-baratos')];
+const $cercanosApp = document.getElementById('cercanos-app');
+const $cercanosMarca = document.getElementById('sel-cercanos-marca');
+const $viewCercanos = document.getElementById('view-cercanos');
+const $tabBtns = [document.getElementById('tab-btn-comparador'), document.getElementById('tab-btn-baratos'), document.getElementById('tab-btn-cercanos')];
 
 function uniq(arr){ return [...new Set(arr)]; }
 
@@ -376,7 +396,9 @@ function setTab(tab){
   $tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   $viewComparador.hidden = tab !== 'comparador';
   $viewBaratos.hidden = tab !== 'baratos';
+  $viewCercanos.hidden = tab !== 'cercanos';
   if(tab === 'baratos') renderBaratos();
+  if(tab === 'cercanos') renderCercanos();
 }
 
 function init(){
@@ -387,11 +409,14 @@ function init(){
   $marca.innerHTML = marcas.map(m => `<option value="${m}">${m.charAt(0)+m.slice(1).toLowerCase()}</option>`).join('');
   $baratosMarca.innerHTML = `<option value="">Todas las marcas</option>` +
     marcas.map(m => `<option value="${m}">${m.charAt(0)+m.slice(1).toLowerCase()}</option>`).join('');
+  $cercanosMarca.innerHTML = `<option value="">Todas las marcas</option>` +
+    marcas.map(m => `<option value="${m}">${m.charAt(0)+m.slice(1).toLowerCase()}</option>`).join('');
 
   $marca.addEventListener('change', populateModelos);
   $modelo.addEventListener('change', populateStorages);
   $storage.addEventListener('change', render);
   $baratosMarca.addEventListener('change', renderBaratos);
+  $cercanosMarca.addEventListener('change', renderCercanos);
   $tabBtns.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
 
   populateModelos();
@@ -699,6 +724,93 @@ function renderBaratos(){
   `;
 
   $baratosApp.querySelectorAll('.barato-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      irAComparador(btn.dataset.marca, btn.dataset.modelo, btn.dataset.storage);
+    });
+  });
+}
+
+// ---- Pestaña "Diferencia <= $10.000": mismo criterio que "Movistar más
+// barato" pero invertido - modelos donde Movistar queda MAS CARO que la
+// oferta mas barata de la competencia, con un margen de a lo más $10.000.
+// Util para detectar equipos donde una pequena rebaja alcanzaria para
+// empatar o ganarle a la competencia.
+const CERCA_UMBRAL = 10000;
+
+function evaluarModeloCercano(modelo){
+  const storages = uniq(modelo.variantes.map(v=>v.storage).filter(Boolean)).sort(storageSort);
+  const storage = storages[0];
+  if(!storage) return null;
+  const variant = pickVariant(modelo, storage);
+
+  const mvRows = movistarModalidades(variant);
+  if(!mvRows.length) return null;
+  const movistarMin = Math.min(...mvRows.map(r=>r.total));
+  const movistarMinRow = mvRows.find(r=>r.total===movistarMin);
+
+  let best = null;
+  SOURCE_ORDER.forEach(src => {
+    rawOffers(src, modelo.competencia[src]).forEach(o => {
+      if(best === null || o.precio < best.precio) best = { src, ...o };
+    });
+  });
+  if(!best) return null;
+
+  const delta = movistarMin - best.precio;
+  if(delta <= 0 || delta > CERCA_UMBRAL) return null;
+
+  return { modelo, storage, movistarMin, movistarMinRow, best, delta };
+}
+
+function renderCercanos(){
+  const marcaFiltro = $cercanosMarca.value;
+  const universo = marcaFiltro ? DATA.modelos.filter(m => m.marca === marcaFiltro) : DATA.modelos;
+
+  const rows = universo.map(evaluarModeloCercano).filter(Boolean)
+    .sort((a,b) => a.delta - b.delta);
+
+  const total = universo.length;
+  const conCompetencia = universo.filter(m => SOURCE_ORDER.some(src => rawOffers(src, m.competencia[src]).length)).length;
+  const marcaLabel = marcaFiltro ? (marcaFiltro.charAt(0) + marcaFiltro.slice(1).toLowerCase()) : null;
+
+  if(!rows.length){
+    $cercanosApp.innerHTML = `<div class="empty-state">${marcaFiltro ? `No se encontraron equipos ${marcaLabel} donde Movistar quede a lo más $10.000 por sobre la competencia.` : 'No se encontraron equipos donde Movistar quede a lo más $10.000 por sobre la competencia.'}</div>`;
+    return;
+  }
+
+  const cardsHtml = rows.map(r => {
+    const s = r.modelo.specs || {};
+    const imgHtml = s.imagen
+      ? `<img class="barato-img" src="${s.imagen}" alt="${r.modelo.modelo_display}" onerror="this.remove()">`
+      : `<div class="barato-img-placeholder"></div>`;
+    const pct = r.best.precio > 0 ? Math.round((r.delta / r.best.precio) * 100) : null;
+    return `<div class="barato-card">
+      ${imgHtml}
+      <div class="barato-body">
+        <div class="barato-brand">${r.modelo.marca}</div>
+        <div class="barato-name">${r.modelo.modelo_display} · ${r.storage}</div>
+        <div class="barato-prices">
+          <div class="barato-mv">
+            <span class="lbl">Movistar</span>
+            <span class="val">${money(r.movistarMin)}</span>
+          </div>
+          <div class="barato-comp">
+            <span class="lbl">${SOURCE_LABELS[r.best.src]}</span>
+            <span class="val">${money(r.best.precio)}</span>
+          </div>
+        </div>
+        <div class="barato-delta cercano">+${money(r.delta)}${pct !== null ? ` (${pct}%)` : ''} más caro que ${SOURCE_LABELS[r.best.src]}</div>
+        <button type="button" class="barato-link" data-marca="${r.modelo.marca}" data-modelo="${r.modelo.modelo_base}" data-storage="${r.storage}">Ver comparativo completo →</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  $cercanosApp.innerHTML = `
+    <div class="baratos-summary">${rows.length} de ${conCompetencia} equipos con precio de competencia registrado tienen a Movistar a lo más $10.000 por sobre el precio mas bajo de la competencia (${rows.length} de ${total} equipos en total${marcaLabel ? ` · marca ${marcaLabel}` : ''}). Ordenados de menor a mayor diferencia.</div>
+    <div class="baratos-grid">${cardsHtml}</div>
+  `;
+
+  $cercanosApp.querySelectorAll('.barato-link').forEach(btn => {
     btn.addEventListener('click', () => {
       irAComparador(btn.dataset.marca, btn.dataset.modelo, btn.dataset.storage);
     });
